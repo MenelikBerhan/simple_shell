@@ -2,14 +2,14 @@
 
 /**
  * get_path - finds the PATH variable in environ
- * @environ: apointer to a NULL terminated array of environment variables.
+ * @env: a pointer to a NULL terminated array of environment variables.
  *
  * Return: a pointer to an array of PATH variable values
-*/
+ */
 char **get_path(char **env)
 {
 	char *path, **paths;
-	int i/* , j */;
+	int i;
 
 	for (i = 0; env && env[i]; i++)
 	{
@@ -21,12 +21,11 @@ char **get_path(char **env)
 	}
 	if (!path)
 		return (NULL);
-	path += 5; /* pass "PATH=" */
+	path += 5;
 	paths = _strtok(path, ":");
 	if (!paths)
 		return (NULL);
-
-	return (paths); /* free *paths and paths */
+	return (paths);
 }
 
 /**
@@ -35,7 +34,7 @@ char **get_path(char **env)
  * @paths: a pointer to an array of PATH variable values.
  *
  * Return: a full path file name if file is found, or else NULL.
-*/
+ */
 char *add_path(char *file_name, char **paths)
 {
 	struct stat st;
@@ -43,7 +42,7 @@ char *add_path(char *file_name, char **paths)
 	int i, new_size;
 
 	if (stat(file_name, &st) == 0)
-			return (strdup(file_name)); /* free full_path when done in calling function */
+		return (strdup(file_name)); /* free full_path when done in calling function */
 	if (*file_name == '/')
 		file_name++;
 	for (i = 0; paths && paths[i]; i++)

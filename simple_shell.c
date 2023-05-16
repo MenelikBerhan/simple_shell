@@ -1,11 +1,12 @@
-
 #include "main.h"
 
 /**
  * main - simple shell.
+ * @argc: argument count
+ * @argv: argument vector
  *
- * Return: 0 (Success)
-*/
+ * Return: Always 0 (Success)
+ */
 int main(int argc, char *argv[])
 {
 	/* to fix or add
@@ -19,22 +20,21 @@ int main(int argc, char *argv[])
 	6. inbuilts (exit, env, setenv, unsetenv, cd and alias)
 	7. Cleanup for all (memory leak and code redudency)
 	 */
-	size_t len = 20;
+	size_t len;
 	char *line, **tokens, *full_path, **paths;
 	ssize_t nread;
-	int status;
+	int status, i_mode = isatty(STDIN_FILENO);
 	pid_t child_pid;
+	struct stat buf;
 	extern char **environ;
+	(void)argc;
 
-	(void) argc;
-
-	line = malloc(sizeof(char) * (len));
-	memset(line, 0, len);
-	write(STDOUT_FILENO, "$ ", 2); /* add - how not to print prompt if run in non-interactive mode or from file*/
-
+	line = malloc(sizeof(char) * 1);
+	memset(line, 0, 1);
+	prompt();
 	paths = get_path(environ);
 	while ((nread = getline(&line, &len, stdin)) != -1)
-	/* while ((nread = _get_line(&line, &len)) != -1) */
+	// while ((nread = _get_line(&line, &len, stdin)) != -1)
 	{
 		if (nread == 1 && *line == 10)
 		{
@@ -43,13 +43,11 @@ int main(int argc, char *argv[])
 		}
 		if (line[nread - 1] == 10)
 			line[nread - 1] = 0;
-	
 		tokens = _strtok(line, " ");
 		full_path = add_path(tokens[0], paths);
 		if (full_path)
 		{
 			tokens[0] = full_path;
-			
 			child_pid = fork();
 			if (child_pid == -1)
 			{
@@ -70,15 +68,12 @@ int main(int argc, char *argv[])
 					return (1);
 				}
 			}
-			/* free(full_path); */
 		}
 		else
 			perror(argv[0]);
-
 		free(*tokens);
-		free (tokens);
-		write(STDOUT_FILENO, "$ ", 2);  /* add - how not to print prompt if run in non-interactive mode or from file */
-		
+		free(tokens);
+		prompt();
 	}
 	free(line);
 	free(*paths);
@@ -86,12 +81,11 @@ int main(int argc, char *argv[])
 	return (0);
 }
 
-
 /**
  * parse_tokens - parses array of tokens.(for ; #, $, &&, ||)
  *
- * Return: separate commands. 
-*/
+ * Return: separate commands.
+ */
 /* char ***parse_tokens(char **tokens)
 {
 

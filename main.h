@@ -9,9 +9,13 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-int _get_line(char **line, size_t *nread);
+
+#define BUFFER_SIZE 256
+
+int _get_line(char **line, size_t *nread, FILE *stream);
 char **_strtok(char *str, char *delimiters);
 char **get_path(char **env);
 char *add_path(char *file_name, char **paths);
+void prompt(void);
 
 #endif
