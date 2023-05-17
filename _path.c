@@ -29,7 +29,7 @@ char **get_path(char **env)
 }
 
 /**
- * add_path - searches a file_name in PATH values and if found prefix path to it.
+ * add_path - prefixes the right path to a command if any.
  * @file_name: name of file to be found
  * @paths: a pointer to an array of PATH variable values.
  *
@@ -42,7 +42,7 @@ char *add_path(char *file_name, char **paths)
 	int i, new_size;
 
 	if (stat(file_name, &st) == 0)
-		return (strdup(file_name)); /* free full_path when done in calling function */
+		return (strdup(file_name));
 	if (*file_name == '/')
 		file_name++;
 	for (i = 0; paths && paths[i]; i++)
@@ -54,7 +54,7 @@ char *add_path(char *file_name, char **paths)
 		strcat(full_path, file_name);
 
 		if (stat(full_path, &st) == 0)
-			return (full_path); /* free full_path when done in calling function */
+			return (full_path);
 		free(full_path);
 	}
 	if (i == 0)
