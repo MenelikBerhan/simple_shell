@@ -1,48 +1,43 @@
 #include "main.h"
 
 /**
- * _strtok - splits str into tokens using characters in delimiters.
+ * _strtok - splits string str into tokens using characters in delimiters.
  * @str: the string to split
  * @delimiters: string containing delimiting characters.
  *
  * Return: a pointer to an array of tokens.
+ * Note: the caller must free *tokens before freeing tokens.
  */
-
 char **_strtok(char *str, char *delimiters)
 {
 	char *temp = NULL, **tokens = NULL;
-	int len = 0, i = 0, tokn_strt;
+	int i = 0;
 
-	if (!str)
+	if (!str || (delimiters && (strspn(str, delimiters) == strlen(str))))
 		return (NULL);
+	tokens = malloc(sizeof(char *) * (i + 2));
 	if (!delimiters)
 	{
-		tokens = malloc(sizeof(char *) * 2);
-		tokens[0] = str;
+		tokens[0] = strdup(str);
 		tokens[1] = NULL;
 		return (tokens);
 	}
-	len = strlen(str);
-	if ((int)strspn(str, delimiters) == len)
-		return (NULL);
+	str += strspn(str, delimiters);
 	temp = strdup(str);
-	do
+	tokens[i++] = temp;
+	while ((temp = strpbrk(temp, delimiters)) && *temp)
 	{
-		tokn_strt = strspn(temp, delimiters);
-		temp += tokn_strt;
-		if (*temp == '\0')
-			break;
-		tokens = realloc(tokens, sizeof(char *) * (i + 2));
-		*(tokens + i) = temp;
-		temp = strpbrk(temp, delimiters);
-		if (temp)
+		*temp = 0;
+		temp++;
+		temp += strspn(temp, delimiters);
+		if (*temp)
 		{
-			*temp = '\0';
-			temp++;
+			tokens = realloc(tokens, sizeof(char *) * (i + 2));
+			tokens[i++] = temp;
 		}
-		i++;
-	} while (temp && *temp);
-	free(temp);
+		else
+			break;
+	}
 	tokens[i] = NULL;
 	return (tokens);
 }
