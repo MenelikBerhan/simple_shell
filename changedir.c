@@ -2,9 +2,10 @@
 
 /**
  * cd_errors - prints the error messages for cd
+ * @sh: shell name
  * @path: path that generated error
  */
-void cd_errors(char *path)
+void cd_errors(char *sh, char *path)
 {
 	if (path && !strcmp(path, "-"))
 		fprintf(stderr, "%s: cd: OLDPWD not set\n", sh);
@@ -19,9 +20,10 @@ void cd_errors(char *path)
 
 /**
  * changedir - change directories
+ * @sh: shell name
  * @tokens: input tokens
  */
-void changedir(char **tokens)
+void changedir(char *sh, char **tokens)
 {
 	static char oldpwd[PATH_MAX];
 	char currpwd[PATH_MAX], fullpwd[PATH_MAX], *home;
@@ -62,5 +64,5 @@ void changedir(char **tokens)
 		}
 	}
 	else
-		cd_errors(tokens[1]);
+		cd_errors(sh, tokens[1]);
 }

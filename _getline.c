@@ -2,7 +2,6 @@
 
 /**
  * _read - read from a stream to a buffer
- * @buffer: input buffer
  * @fp: input stream
  * @len: input string length
  * @line: line buffer

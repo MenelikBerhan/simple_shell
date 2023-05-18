@@ -13,14 +13,18 @@ char **_strtok(char *str, char *delimiters)
 	int foundDelimiter = 0;
 	size_t tokenCount = 0, maxTokens = 10;
 
-	if (str == NULL)
-		return (NULL);
-	str += strspn(str, delimiters);
-	if (*str == '\0')
+	if (!str || (delimiters && (strspn(str, delimiters) == strlen(str))))
 		return (NULL);
 	tokens = malloc((maxTokens + 1) * sizeof(char *));
-	if (tokens == NULL)
-		return NULL;
+	if (!tokens)
+		return (NULL);
+	if (!delimiters)
+	{
+		tokens[0] = strdup(str);
+		tokens[1] = NULL;
+		return (tokens);
+	}
+	str += strspn(str, delimiters);
 	while (*str != '\0')
 	{
 		token = str;
@@ -36,11 +40,11 @@ char **_strtok(char *str, char *delimiters)
 			if (resizedTokens == NULL)
 			{
 				free(tokens);
-				return NULL;
+				return (NULL);
 			}
 			tokens = resizedTokens;
 		}
 	}
 	tokens[tokenCount] = NULL;
-	return tokens;
+	return (tokens);
 }

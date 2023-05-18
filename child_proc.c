@@ -2,12 +2,13 @@
 
 /**
  * child_proc - creates and executes a child process
+ * @sh: shell name
  * @path: command full path
  * @tokens: input tokens
  *
  * Return: 0 on success, -1 on failure
  */
-int child_proc(char *path, char **tokens)
+int child_proc(char *sh, char *path, char **tokens)
 {
 	pid_t child_pid;
 	int status;
