@@ -34,12 +34,24 @@ void trim_in(char *s)
  */
 void exit_shell(char *code, char *l, char **t, char **p)
 {
-	free(t);
-	free(l);
-	free(p);
+	int exit_status = 0;
+
 	if (code)
-		exit(atoi(code));
-	exit(0);
+		exit_status = atoi(code);
+
+	if (l)
+		free(l);
+	if (t)
+	{
+		free(*t);
+		free(t);
+	}
+	if (p)
+	{
+		free(*p);
+		free(p);
+	}
+	exit(exit_status);
 }
 
 /**
