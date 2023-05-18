@@ -11,11 +11,11 @@
 char **_strtok(char *str, char *delimiters)
 {
 	char *temp = NULL, **tokens = NULL;
-	int i = 0;
+	int i = 0, maxTokens = 10;
 
 	if (!str || (delimiters && (strspn(str, delimiters) == strlen(str))))
 		return (NULL);
-	tokens = malloc(sizeof(char *) * (i + 2));
+	tokens = malloc(sizeof(char *) * (maxTokens + 1));
 	if (!delimiters)
 	{
 		tokens[0] = strdup(str);
@@ -32,7 +32,11 @@ char **_strtok(char *str, char *delimiters)
 		temp += strspn(temp, delimiters);
 		if (*temp)
 		{
-			tokens = realloc(tokens, sizeof(char *) * (i + 2));
+			if (i == maxTokens)
+			{
+				maxTokens *= 2;
+				tokens = realloc(tokens, sizeof(char *) * (maxTokens + 1));
+			}
 			tokens[i++] = temp;
 		}
 		else
