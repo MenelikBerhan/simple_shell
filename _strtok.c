@@ -7,42 +7,40 @@
  *
  * Return: a pointer to an array of tokens.
  */
-
 char **_strtok(char *str, char *delimiters)
 {
-	char *temp = NULL, **tokens = NULL;
-	int len = 0, i = 0, tokn_strt;
+	char *token, **tokens, **resizedTokens;
+	int foundDelimiter = 0;
+	size_t tokenCount = 0, maxTokens = 10;
 
-	if (!str)
+	if (str == NULL)
 		return (NULL);
-	if (!delimiters)
-	{
-		tokens = malloc(sizeof(char *) * 2);
-		tokens[0] = str;
-		tokens[1] = NULL;
-		return (tokens);
-	}
-	len = strlen(str);
-	if ((int)strspn(str, delimiters) == len)
+	str += strspn(str, delimiters);
+	if (*str == '\0')
 		return (NULL);
-	temp = strdup(str);
-	do
+	tokens = malloc((maxTokens + 1) * sizeof(char *));
+	if (tokens == NULL)
+		return NULL;
+	while (*str != '\0')
 	{
-		tokn_strt = strspn(temp, delimiters);
-		temp += tokn_strt;
-		if (*temp == '\0')
-			break;
-		tokens = realloc(tokens, sizeof(char *) * (i + 2));
-		*(tokens + i) = temp;
-		temp = strpbrk(temp, delimiters);
-		if (temp)
+		token = str;
+		str += strcspn(str, delimiters);
+		foundDelimiter = (*str != '\0');
+		if (foundDelimiter)
+			*str++ = '\0';
+		tokens[tokenCount++] = token;
+		if (tokenCount >= maxTokens)
 		{
-			*temp = '\0';
-			temp++;
+			maxTokens *= 2;
+			resizedTokens = realloc(tokens, (maxTokens + 1) * sizeof(char *));
+			if (resizedTokens == NULL)
+			{
+				free(tokens);
+				return NULL;
+			}
+			tokens = resizedTokens;
 		}
-		i++;
-	} while (temp && *temp);
-	free(temp);
-	tokens[i] = NULL;
-	return (tokens);
+	}
+	tokens[tokenCount] = NULL;
+	return tokens;
 }

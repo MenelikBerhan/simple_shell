@@ -9,7 +9,7 @@
  *
  * Return: read string length and -1 if an error occurs
  */
-int _read(char *buffer, FILE *fp, size_t *len, char **line)
+int _read(FILE *fp, size_t *len, char **line)
 {
 	int c;
 	size_t line_len = strlen(*line);
@@ -43,26 +43,21 @@ int _read(char *buffer, FILE *fp, size_t *len, char **line)
 /**
  * _get_line - reads one line at a time from stdin and stores it in line.
  * @line: buffer containing the read line.
- * @len: size of buffer pointed by *line.
  * @fp: what file stream to read from
  *
  * Return: no of char read (Success) or -1 when EOF is reached or (Failure).
  */
-int _get_line(char **line, size_t *len, FILE *fp)
+int _get_line(char **line, FILE *fp)
 {
-	char buffer[BUFFER_SIZE];
+	size_t len = BUFFER_SIZE;
 	int r_bytes;
 
 	if (!line || !len || !fp)
 		return (-1);
-	if (!(*line) || !(*len))
-	{
-		*len = BUFFER_SIZE;
-		*line = malloc(*len);
-		if (!(*line))
-			return (-1);
-	}
-	(*line)[0] = '\0';
-	r_bytes = _read(buffer, fp, len, line);
+	*line = malloc(len);
+	if (!(*line))
+		return (-1);
+	memset(*line, 0, len);
+	r_bytes = _read(fp, &len, line);
 	return (r_bytes);
 }

@@ -1,5 +1,6 @@
 #include "main.h"
 
+char *sh = "sh";
 /**
  * main - simple shell.
  * @argc: argument count
@@ -9,11 +10,11 @@
  */
 int main(int argc, char *argv[])
 {
-	size_t len;
 	char *line, **tokens, *full_path, **paths;
 	ssize_t nread;
 	FILE *fp = stdin;
 	(void)argc;
+	sh = argv[0];
 
 	signal(SIGINT, handleSigInt);
 
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
 	memset(line, 0, 2);
 	prompt();
 	paths = get_path(environ);
-	while ((nread = _get_line(&line, &len, fp)) != -1)
+	while ((nread = _get_line(&line, fp)) != -1)
 	{
 		if (nread == 1 && *line == 10)
 		{
@@ -34,17 +35,22 @@ int main(int argc, char *argv[])
 		tokens = _strtok(line, " ");
 		if (!strcmp(tokens[0], "exit"))
 			exit_shell(tokens[1], line, tokens, paths);
+		if (!strcmp(tokens[0], "cd"))
+		{
+			changedir(tokens);
+			free(tokens);
+			prompt();
+			continue;
+		}
 		full_path = add_path(tokens[0], paths);
 		if (full_path)
-			child_proc(full_path, argv[0], tokens);
+			child_proc(full_path, tokens);
 		else
 			perror(argv[0]);
-		free(*tokens);
 		free(tokens);
 		prompt();
 	}
 	free(line);
-	free(*paths);
 	free(paths);
 	return (0);
 }
