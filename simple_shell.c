@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 	signal(SIGINT, handleSigInt);
 
 	line = malloc(sizeof(char) * 2);
+	len = 2;
 	memset(line, 0, 2);
 	prompt();
 	paths = get_path(environ);
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
 			child_proc(full_path, argv[0], tokens);
 		else
 			perror(argv[0]);
+		free(full_path);
 		free(*tokens);
 		free(tokens);
 		prompt();
