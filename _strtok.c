@@ -6,7 +6,6 @@
  * @delimiters: string containing delimiting characters.
  *
  * Return: a pointer to an array of tokens.
- * Note: the caller must free *tokens before freeing tokens.
  */
 char **_strtok(char *str, char *delimiters)
 {
@@ -18,12 +17,12 @@ char **_strtok(char *str, char *delimiters)
 	tokens = malloc(sizeof(char *) * (maxTokens + 1));
 	if (!delimiters)
 	{
-		tokens[0] = strdup(str);
+		tokens[0] = str;
 		tokens[1] = NULL;
 		return (tokens);
 	}
 	str += strspn(str, delimiters);
-	temp = strdup(str);
+	temp = str;
 	tokens[i++] = temp;
 	while ((temp = strpbrk(temp, delimiters)) && *temp)
 	{
