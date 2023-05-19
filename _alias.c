@@ -42,7 +42,7 @@ Alias *search_alias(Alias *dict, char *key)
 {
 	Alias *curr = dict;
 
-	while (curr != NULL)
+	while (curr)
 	{
 		if (strcmp(curr->key, key) == 0)
 			return (curr);
@@ -59,7 +59,7 @@ void print_all(Alias *dict)
 {
 	Alias *curr = dict;
 
-	while (curr != NULL)
+	while (curr)
 	{
 		printf("%s='%s'\n", curr->key, curr->value);
 		curr = curr->next;

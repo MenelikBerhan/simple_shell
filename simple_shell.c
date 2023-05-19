@@ -9,7 +9,6 @@
  */
 int main(int argc, char *argv[])
 {
-	size_t len;
 	char *line, **tokens, *full_path, **paths;
 	ssize_t nread;
 	FILE *fp = stdin;
@@ -19,7 +18,6 @@ int main(int argc, char *argv[])
 	signal(SIGINT, handleSigInt);
 
 	line = malloc(sizeof(char) * 2);
-	len = 2;
 	memset(line, 0, 2);
 	prompt();
 	paths = get_path(environ);
