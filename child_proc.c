@@ -4,11 +4,11 @@
  * child_proc - creates and executes a child process
  * @sh: shell name
  * @path: command full path
- * @tokens: input tokens
+ * @t: input tokens
  *
  * Return: 0 on success, -1 on failure
  */
-int child_proc(char *sh, char *path, char **tokens)
+int child_proc(char *sh, char *path, char **t)
 {
 	pid_t child_pid;
 	int status;
@@ -21,7 +21,7 @@ int child_proc(char *sh, char *path, char **tokens)
 	}
 	else if (child_pid == 0)
 	{
-		if (execve(path, tokens, environ) == -1)
+		if (execve(path, t, environ) == -1)
 			perror(sh);
 		_exit(EXIT_FAILURE);
 	}

@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	char *line, **tokens, *full_path, **paths;
 	ssize_t nread;
 	FILE *fp = stdin;
+	Alias *l_alias;
 	(void)argc;
 
 	signal(SIGINT, handleSigInt);
@@ -31,7 +32,8 @@ int main(int argc, char *argv[])
 			line[nread - 1] = 0;
 		trim_in(line);
 		tokens = _strtok(line, " ");
-		if (handle_inbuilts(argv[0], line, paths, tokens))
+		check_alias(l_alias, &tokens);
+		if (handle_inbuilts(argv[0], line, paths, tokens, &l_alias))
 			continue;
 		full_path = add_path(tokens[0], paths);
 		if (full_path)
@@ -43,5 +45,6 @@ int main(int argc, char *argv[])
 	}
 	free(line);
 	free(paths);
+	free_alias(l_alias);
 	return (0);
 }

@@ -21,9 +21,9 @@ void cd_errors(char *sh, char *path)
 /**
  * changedir - change directories
  * @sh: shell name
- * @tokens: input tokens
+ * @t: input tokens
  */
-void changedir(char *sh, char **tokens)
+void changedir(char *sh, char **t)
 {
 	static char oldpwd[PATH_MAX];
 	char currpwd[PATH_MAX], fullpwd[PATH_MAX], *home;
@@ -33,7 +33,7 @@ void changedir(char *sh, char **tokens)
 		perror(sh);
 		return;
 	}
-	if (tokens[1] == NULL)
+	if (t[1] == NULL)
 	{
 		home = getenv("HOME");
 		if (!home)
@@ -41,18 +41,18 @@ void changedir(char *sh, char **tokens)
 		strncpy(fullpwd, home, sizeof(fullpwd) - 1);
 		fullpwd[sizeof(fullpwd) - 1] = '\0';
 	}
-	else if (tokens[1][0] == '/')
+	else if (t[1][0] == '/')
 	{
-		strncpy(fullpwd, tokens[1], sizeof(fullpwd) - 1);
+		strncpy(fullpwd, t[1], sizeof(fullpwd) - 1);
 		fullpwd[sizeof(fullpwd) - 1] = '\0';
 	}
-	else if (strcmp(tokens[1], "-") == 0)
+	else if (strcmp(t[1], "-") == 0)
 	{
 		strncpy(fullpwd, oldpwd, sizeof(fullpwd) - 1);
 		fullpwd[sizeof(fullpwd) - 1] = '\0';
 	}
 	else
-		snprintf(fullpwd, sizeof(fullpwd), "%s/%s", currpwd, tokens[1]);
+		snprintf(fullpwd, sizeof(fullpwd), "%s/%s", currpwd, t[1]);
 	if (chdir(fullpwd) == 0)
 	{
 		strncpy(oldpwd, currpwd, sizeof(oldpwd) - 1);
@@ -64,5 +64,5 @@ void changedir(char *sh, char **tokens)
 		}
 	}
 	else
-		cd_errors(sh, tokens[1]);
+		cd_errors(sh, t[1]);
 }

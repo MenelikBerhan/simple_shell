@@ -31,12 +31,14 @@ void trim_in(char *s)
  * @l: line string
  * @t: input tokens
  * @p: paths
+ * @a: current alias list
  */
-void exit_shell(char *code, char *l, char **t, char **p)
+void exit_shell(char *code, char *l, char **t, char **p, Alias **a)
 {
 	free(t);
 	free(l);
 	free(p);
+	free_alias(*a);
 	if (code)
 		exit(atoi(code));
 	exit(0);
@@ -51,4 +53,21 @@ void prompt(void)
 
 	if (i_mode)
 		write(STDOUT_FILENO, "$ ", 2);
+}
+
+/**
+ * free_alias - frees the entire alias list
+ * @head: current alias list head
+ */
+void free_alias(Alias *head)
+{
+	Alias *curr = head, *next = NULL;
+
+	for (; curr; curr = next)
+	{
+		next = curr->next;
+		free(curr->key);
+		free(curr->value);
+		free(curr);
+	}
 }

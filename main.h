@@ -13,18 +13,36 @@
 #include <limits.h>
 
 #define BUFFER_SIZE 256
-extern char **environ;
-extern char *sh;
 
-int _get_line(char **line, FILE *fp);
-char **_strtok(char *str, char *delimiters);
-char **get_path(char **env);
+extern char **environ;
+/**
+ * struct alias - struct for alias nodes
+ * @key: alias key
+ * @value: alias value
+ * @next: next alias key-value pair
+ *
+ * Description: This struct holds the key-value pair of an alias
+ */
+typedef struct alias
+{
+	char *key;
+	char *value;
+	struct alias *next;
+} Alias;
+
+int handle_inbuilts(char *sh, char *l, char **p, char **t, Alias **a);
+void exit_shell(char *code, char *l, char **t, char **p, Alias **a);
+void _alias(char *sh, char **t, Alias **alias_list);
+int child_proc(char *sh, char *path, char **t);
 char *add_path(char *file_name, char **paths);
-int child_proc(char *sh, char *path, char **tokens);
-void exit_shell(char *code, char *l, char **t, char **p);
-int handle_inbuilts(char *sh, char *l, char **p, char **t);
-void changedir(char *sh, char **tokens);
+char **_strtok(char *str, char *delimiters);
+Alias *search_alias(Alias *dict, char *key);
+void check_alias(Alias *a, char ***t);
+int _get_line(char **line, FILE *fp);
+void changedir(char *sh, char **t);
 void handleSigInt(int signum);
+void free_alias(Alias *head);
+char **get_path(char **env);
 void trim_in(char *s);
 void prompt(void);
 
