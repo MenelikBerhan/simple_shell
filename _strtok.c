@@ -1,15 +1,16 @@
 #include "main.h"
 
 /**
- * _strtok - splits str into tokens using characters in delimiters.
- * @s: the string to split
- * @delim: string containing delimiting characters.
+ * _strtok - splits string str into tokens using characters in delimiters.
+ * @str: the string to split
+ * @delimiters: string containing delimiting characters.
  *
  * Return: a pointer to an array of tokens.
+ * Note: the caller must free *tokens before freeing tokens.
  */
-char **_strtok(char *s, char *delim)
+char **_strtok(char *str, char *delim)
 {
-	char *str = s, *token, **tokens;
+	char *token, **tokens;
 	int foundDelimiter = 0;
 	size_t tokenCount = 0, maxTokens = 10;
 
