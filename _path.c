@@ -5,6 +5,7 @@
  * @env: a pointer to a NULL terminated array of environment variables.
  *
  * Return: a pointer to an array of PATH variable values
+ * Note: free *paths before free'ing paths.
  */
 char **get_path(char **env)
 {
@@ -22,7 +23,7 @@ char **get_path(char **env)
 	if (!path)
 		return (NULL);
 	path += 5;
-	paths = _strtok(path, ":");
+	paths = _strtok(strdup(path), ":");
 	if (!paths)
 		return (NULL);
 	return (paths);

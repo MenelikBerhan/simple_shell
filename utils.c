@@ -42,10 +42,7 @@ void exit_shell(char *code, char *l, char **t, char **p)
 	if (l)
 		free(l);
 	if (t)
-	{
-		free(*t);
 		free(t);
-	}
 	if (p)
 	{
 		free(*p);

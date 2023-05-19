@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	memset(line, 0, 2);
 	prompt();
 	paths = get_path(environ);
-	while ((nread = _get_line(&line, &len, fp)) != -1)
+	while ((nread = getline(&line, &len, fp)) != -1)
 	{
 		if (nread == 1 && *line == 10)
 		{
@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
 		else
 			perror(argv[0]);
 		free(full_path);
-		free(*tokens);
 		free(tokens);
 		prompt();
 	}
