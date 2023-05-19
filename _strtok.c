@@ -3,10 +3,9 @@
 /**
  * _strtok - splits string str into tokens using characters in delimiters.
  * @str: the string to split
- * @delimiters: string containing delimiting characters.
+ * @delim: string containing delimiting characters.
  *
  * Return: a pointer to an array of tokens.
- * Note: the caller must free *tokens before freeing tokens.
  */
 char **_strtok(char *str, char *delim)
 {
