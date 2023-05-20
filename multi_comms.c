@@ -10,9 +10,10 @@
 void multi_comms(char *sh, char *line, Alias **alias, char **paths)
 {
 	char **comm = NULL, **comm2 = NULL, **comm3 = NULL;
+	char status_code[20];
 	int i, j, k, status;
 
-	comm = _strtok(line, ";");
+	comm = _strtok(line, ";\n");
 	for (i = 0; comm[i] != NULL; i++)
 	{
 		comm2 = _strtok(comm[i], "&&");
@@ -28,5 +29,10 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths)
 			if (status)
 				break;
 		}
+	}
+	if (!isatty(STDIN_FILENO))
+	{
+		snprintf(status_code, sizeof(status_code), "%d", status);
+		exit_shell(status_code, line, NULL, paths, alias);
 	}
 }

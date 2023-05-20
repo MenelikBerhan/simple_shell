@@ -23,7 +23,10 @@ int run_comm(char *sh, char *line, Alias **alias, char **paths)
 	if (full_path)
 		proc_status = child_proc(sh, full_path, tokens);
 	else
-		perror(sh);
+	{
+		proc_status = 127;
+		fprintf(stderr, "%s: 1: %s: not found\n", sh, tokens[0]);
+	}
 	free(tokens);
 	return (proc_status);
 }
