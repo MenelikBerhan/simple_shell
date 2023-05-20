@@ -37,6 +37,7 @@ void exit_shell(char *code, char *l, char **t, char **p, Alias **a)
 {
 	free(t);
 	free(l);
+	free(*p);
 	free(p);
 	free_alias(*a);
 	if (code)

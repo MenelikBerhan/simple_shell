@@ -71,8 +71,10 @@ void print_all(Alias *dict)
  * @sh: shell name
  * @t: input tokens
  * @alias_list: current alias_list
+ *
+ * Return: process status
  */
-void _alias(char *sh, char **t, Alias **alias_list)
+int _alias(char *sh, char **t, Alias **alias_list)
 {
 	Alias *temp;
 	char **args;
@@ -92,7 +94,7 @@ void _alias(char *sh, char **t, Alias **alias_list)
 				{
 					free(temp->value);
 					temp->value = strdup(args[1]);
-					return;
+					return (0);
 				}
 				add_alias(alias_list, args[0], args[1]);
 			}
@@ -102,8 +104,12 @@ void _alias(char *sh, char **t, Alias **alias_list)
 				if (temp)
 					printf("%s='%s'\n", temp->key, temp->value);
 				else
+				{
 					fprintf(stderr, "%s: alias: %s: not found\n", sh, args[0]);
+					return (1);
+				}
 			}
 		}
 	}
+	return (0);
 }

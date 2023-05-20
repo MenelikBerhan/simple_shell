@@ -4,10 +4,14 @@
  * cd_errors - prints the error messages for cd
  * @sh: shell name
  * @path: path that generated error
+ *
+ * Return: always -1 (success)
  */
-void cd_errors(char *sh, char *path)
+int cd_errors(char *sh, char *path)
 {
-	if (path && !strcmp(path, "-"))
+	if (!path)
+		perror(sh);
+	if (!strcmp(path, "-"))
 		fprintf(stderr, "%s: cd: OLDPWD not set\n", sh);
 	else if (strspn(path, "-/") == 2)
 	{
@@ -16,28 +20,28 @@ void cd_errors(char *sh, char *path)
 	}
 	else
 		fprintf(stderr, "%s: cd: %s: No such file or directory\n", sh, path);
+	return (1);
 }
 
 /**
  * changedir - change directories
  * @sh: shell name
  * @t: input tokens
+ *
+ * Return: process status
  */
-void changedir(char *sh, char **t)
+int changedir(char *sh, char **t)
 {
 	static char oldpwd[PATH_MAX];
 	char currpwd[PATH_MAX], fullpwd[PATH_MAX], *home;
 
 	if (!(getcwd(currpwd, sizeof(currpwd))))
-	{
-		perror(sh);
-		return;
-	}
+		return (cd_errors(sh, NULL));
 	if (t[1] == NULL)
 	{
 		home = getenv("HOME");
 		if (!home)
-			return;
+			return (1);
 		strncpy(fullpwd, home, sizeof(fullpwd) - 1);
 		fullpwd[sizeof(fullpwd) - 1] = '\0';
 	}
@@ -58,11 +62,9 @@ void changedir(char *sh, char **t)
 		strncpy(oldpwd, currpwd, sizeof(oldpwd) - 1);
 		oldpwd[sizeof(oldpwd) - 1] = '\0';
 		if (setenv("PWD", fullpwd, 1))
-		{
-			perror("setenv() error");
-			return;
-		}
+			return (cd_errors("setenv() error", NULL));
 	}
 	else
-		cd_errors(sh, t[1]);
+		return (cd_errors(sh, t[1]));
+	return (0);
 }

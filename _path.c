@@ -22,7 +22,7 @@ char **get_path(char **env)
 	if (!path)
 		return (NULL);
 	path += 5;
-	paths = _strtok(path, ":");
+	paths = _strtok(strdup(path), ":");
 	if (!paths)
 		return (NULL);
 	return (paths);

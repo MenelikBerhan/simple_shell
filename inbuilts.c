@@ -8,10 +8,12 @@
  * @t: input tokens
  * @a: current alias list
  *
- * Return: 0 if not inbuild command, 1 otherwise
+ * Return: 1 if not inbuild command, 0 otherwise
  */
 int handle_inbuilts(char *sh, char *l, char **p, char **t, Alias **a)
 {
+	int status = 0;
+
 	if (!strcmp(t[0], "exit"))
 	{
 		if (t[1])
@@ -21,17 +23,17 @@ int handle_inbuilts(char *sh, char *l, char **p, char **t, Alias **a)
 	}
 	if (!strcmp(t[0], "cd"))
 	{
-		changedir(sh, t);
-		free(t);
-		prompt();
-		return (1);
+		status = changedir(sh, t);
+		if (!status)
+			free(t);
+		return (status);
 	}
 	if (!strcmp(t[0], "alias"))
 	{
-		_alias(sh, t, a);
-		free(t);
-		prompt();
-		return (1);
+		status = _alias(sh, t, a);
+		if (!status)
+			free(t);
+		return (status);
 	}
-	return (0);
+	return (-1);
 }

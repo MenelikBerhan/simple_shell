@@ -9,10 +9,10 @@
  */
 int main(int argc, char *argv[])
 {
-	char *line, **tokens, *full_path, **paths;
+	char *line, **paths;
 	ssize_t nread;
 	FILE *fp = stdin;
-	Alias *l_alias;
+	Alias *l_alias = NULL;
 	(void)argc;
 
 	signal(SIGINT, handleSigInt);
@@ -31,19 +31,11 @@ int main(int argc, char *argv[])
 		if (line[nread - 1] == 10)
 			line[nread - 1] = 0;
 		trim_in(line);
-		tokens = _strtok(line, " ");
-		check_alias(l_alias, &tokens);
-		if (handle_inbuilts(argv[0], line, paths, tokens, &l_alias))
-			continue;
-		full_path = add_path(tokens[0], paths);
-		if (full_path)
-			child_proc(argv[0], full_path, tokens);
-		else
-			perror(argv[0]);
-		free(tokens);
+		multi_comms(argv[0], line, &l_alias, paths);
 		prompt();
 	}
 	free(line);
+	free(*paths);
 	free(paths);
 	free_alias(l_alias);
 	return (0);

@@ -11,7 +11,7 @@
 int child_proc(char *sh, char *path, char **t)
 {
 	pid_t child_pid;
-	int status;
+	int status = 0;
 
 	child_pid = fork();
 	if (child_pid == -1)
@@ -32,6 +32,7 @@ int child_proc(char *sh, char *path, char **t)
 			perror("Error:");
 			return (-1);
 		}
+		return (status);
 	}
 	return (0);
 }
