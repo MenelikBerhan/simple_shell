@@ -20,7 +20,7 @@ void trim_in(char *s)
 	int len = strlen(s), i, j = 0;
 
 	for (i = 0; i < len; i++)
-		if ((s[i] >= 32 && s[i] <= 127) || s[i] == 10)
+		if (s[i] >= 32 || s[i] == 10)
 			s[j++] = s[i];
 	s[j] = '\0';
 }
