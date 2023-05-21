@@ -9,7 +9,7 @@
  */
 char **get_path(char **env)
 {
-	char *path, **paths;
+	char *path = NULL, **paths;
 	int i;
 
 	for (i = 0; env && env[i]; i++)
@@ -39,7 +39,7 @@ char **get_path(char **env)
 char *add_path(char *file_name, char **paths)
 {
 	struct stat st;
-	char *full_path;
+	char *full_path = NULL;
 	int i, new_size;
 
 	if (stat(file_name, &st) == 0)
@@ -53,12 +53,9 @@ char *add_path(char *file_name, char **paths)
 		full_path = realloc(full_path, new_size);
 		strcat(full_path, "/");
 		strcat(full_path, file_name);
-
 		if (stat(full_path, &st) == 0)
 			return (full_path);
 		free(full_path);
 	}
-	if (i == 0)
-		free(full_path);
 	return (NULL);
 }

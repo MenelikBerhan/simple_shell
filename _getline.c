@@ -2,38 +2,45 @@
 
 /**
  * _read - read from a stream to a buffer
- * @buffer: input buffer
  * @fp: input stream
  * @len: input string length
  * @line: line buffer
  *
  * Return: read string length and -1 if an error occurs
  */
-int _read(char *buffer, FILE *fp, size_t *len, char **line)
+int _read(FILE *fp, size_t *len, char **line)
 {
-	int c;
+	int c, i_mode = isatty(STDIN_FILENO);
 	size_t line_len = strlen(*line);
 
 	while (1)
 	{
 		c = fgetc(fp);
-		if (line_len > *len)
+		if (line_len > *len - 1)
 		{
 			*len *= 2;
 			*line = realloc(*line, *len);
 			if (!(*line))
 				return (-1);
 		}
-		if (c == '\n')
+		if (c == '\n' && i_mode)
 		{
 			(*line)[line_len] = '\0';
 			return (line_len);
 		}
-		if ((c == 4 || c == EOF) && strlen(*line) > 1)
+		if ((c == 4 || c == EOF) && line_len > 1)
 		{
-			c = 7;
-			ungetc(c, fp);
-			continue;
+			if (i_mode)
+			{
+				c = 7;
+				ungetc(c, fp);
+				continue;
+			}
+			else
+			{
+				(*line)[line_len] = '\0';
+				return (line_len);
+			}
 		}
 		(*line)[line_len++] = (char)c;
 	}
@@ -43,26 +50,22 @@ int _read(char *buffer, FILE *fp, size_t *len, char **line)
 /**
  * _get_line - reads one line at a time from stdin and stores it in line.
  * @line: buffer containing the read line.
- * @len: size of buffer pointed by *line.
  * @fp: what file stream to read from
  *
  * Return: no of char read (Success) or -1 when EOF is reached or (Failure).
  */
-int _get_line(char **line, size_t *len, FILE *fp)
+int _get_line(char **line, FILE *fp)
 {
-	char buffer[BUFFER_SIZE];
+	size_t len = BUFFER_SIZE;
 	int r_bytes;
 
 	if (!line || !len || !fp)
 		return (-1);
-	if (!(*line) || !(*len))
-	{
-		*len = BUFFER_SIZE;
-		*line = malloc(*len);
-		if (!(*line))
-			return (-1);
-	}
-	(*line)[0] = '\0';
-	r_bytes = _read(buffer, fp, len, line);
+	*line = malloc(len);
+	memset(*line, 0, len);
+	if (!(*line))
+		return (-1);
+	memset(*line, 0, len);
+	r_bytes = _read(fp, &len, line);
 	return (r_bytes);
 }

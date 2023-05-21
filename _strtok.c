@@ -3,44 +3,47 @@
 /**
  * _strtok - splits string str into tokens using characters in delimiters.
  * @str: the string to split
- * @delimiters: string containing delimiting characters.
+ * @delim: string containing delimiting characters.
  *
  * Return: a pointer to an array of tokens.
  */
-char **_strtok(char *str, char *delimiters)
+char **_strtok(char *str, char *delim)
 {
-	char *temp = NULL, **tokens = NULL;
-	int i = 0, maxTokens = 10;
+	char *token, **tokens;
+	int foundDelimiter = 0;
+	size_t tokenCount = 0, maxTokens = 10;
 
-	if (!str || (delimiters && (strspn(str, delimiters) == strlen(str))))
+	if (!str || (delim && (strspn(str, delim) == strlen(str))))
 		return (NULL);
-	tokens = malloc(sizeof(char *) * (maxTokens + 1));
-	if (!delimiters)
+	tokens = malloc((maxTokens + 1) * sizeof(char *));
+	if (!tokens)
+		return (NULL);
+	str += strspn(str, delim);
+	while (*str != '\0')
 	{
-		tokens[0] = str;
-		tokens[1] = NULL;
-		return (tokens);
-	}
-	str += strspn(str, delimiters);
-	temp = str;
-	tokens[i++] = temp;
-	while ((temp = strpbrk(temp, delimiters)) && *temp)
-	{
-		*temp = 0;
-		temp++;
-		temp += strspn(temp, delimiters);
-		if (*temp)
+		token = str;
+		if (!strcspn(str++, delim))
+			continue;
+		if (strchr(delim, ' ') && strcspn(str, "\"'") < strcspn(str, delim))
 		{
-			if (i == maxTokens)
-			{
-				maxTokens *= 2;
-				tokens = realloc(tokens, sizeof(char *) * (maxTokens + 1));
-			}
-			tokens[i++] = temp;
+			str += strcspn(str, "\"'") + 1;
+			str += strcspn(str, "\"'");
+			str += strcspn(str, delim);
 		}
 		else
-			break;
+			str += strcspn(str, delim);
+		foundDelimiter = (*str != '\0');
+		if (foundDelimiter)
+			*str++ = '\0';
+		tokens[tokenCount++] = token;
+		if (tokenCount >= maxTokens)
+		{
+			maxTokens *= 2;
+			tokens = realloc(tokens, (maxTokens + 1) * sizeof(char *));
+			if (tokens == NULL)
+				return (NULL);
+		}
 	}
-	tokens[i] = NULL;
+	tokens[tokenCount] = NULL;
 	return (tokens);
 }
