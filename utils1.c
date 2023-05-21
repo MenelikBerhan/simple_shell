@@ -27,14 +27,17 @@ void trim_in(char *s)
 
 /**
  * exit_shell - handle exit commands and parameters
+ * @u_a: is command an alias
  * @code: optional exit code
  * @l: line string
  * @t: input tokens
  * @p: paths
  * @a: current alias list
  */
-void exit_shell(char *code, char *l, char **t, char **p, Alias **a)
+void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a)
 {
+	if (!u_a)
+		free(*t);
 	free(t);
 	free(l);
 	free(*p);

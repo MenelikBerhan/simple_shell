@@ -109,6 +109,7 @@ int _alias(char *sh, char **t, Alias **alias_list)
 					return (1);
 				}
 			}
+			free(args);
 		}
 	}
 	return (0);

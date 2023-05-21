@@ -56,7 +56,7 @@ int changedir(char *sh, char **t)
 		fullpwd[sizeof(fullpwd) - 1] = '\0';
 	}
 	else
-		snprintf(fullpwd, sizeof(fullpwd), "%s/%s", currpwd, t[1]);
+		snprintf(fullpwd, sizeof(fullpwd) - 2, "%s/%s", currpwd, t[1]);
 	if (chdir(fullpwd) == 0)
 	{
 		strncpy(oldpwd, currpwd, sizeof(oldpwd) - 1);

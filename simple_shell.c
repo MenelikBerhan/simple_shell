@@ -17,8 +17,6 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, handleSigInt);
 
-	line = malloc(sizeof(char) * 2);
-	memset(line, 0, 2);
 	prompt();
 	paths = get_path(environ);
 	while ((nread = _get_line(&line, fp)) != -1)
@@ -32,6 +30,7 @@ int main(int argc, char *argv[])
 			line[nread - 1] = 0;
 		trim_in(line);
 		multi_comms(argv[0], line, &l_alias, paths);
+		free(line);
 		prompt();
 	}
 	free(line);
