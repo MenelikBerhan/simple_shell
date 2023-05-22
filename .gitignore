@@ -1,2 +1,11 @@
-test
-test.dSYM
+working/*
+*.o
+Tasks_shrt
+test*
+run*
+trial/*
+simple_shell
+compile/*
+
+env_all_in_one.bak
+.vscode/settings.json
