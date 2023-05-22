@@ -20,7 +20,7 @@ void trim_in(char *s)
 	int len = strlen(s), i, j = 0;
 
 	for (i = 0; i < len; i++)
-		if ((s[i] >= 32 && s[i] <= 127) || s[i] == 10)
+		if (s[i] >= 32 || s[i] == 10)
 			s[j++] = s[i];
 	s[j] = '\0';
 }
@@ -33,11 +33,16 @@ void trim_in(char *s)
  * @t: input tokens
  * @p: paths
  * @a: current alias list
+ * @o_env_adrs: pointer to a pointer to the original environ.
+ * @o_env_elms: pointer to an array of original environ elements address.
+ *
  */
-void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a)
+void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a,
+				char **o_env_adrs, char **o_env_elms)
 {
 	if (!u_a)
 		free(*t);
+	free_environ(-1, o_env_adrs, o_env_elms);
 	free(t);
 	free(l);
 	free(*p);

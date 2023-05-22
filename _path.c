@@ -5,6 +5,7 @@
  * @env: a pointer to a NULL terminated array of environment variables.
  *
  * Return: a pointer to an array of PATH variable values
+ * Note: free *paths before free'ing paths.
  */
 char **get_path(char **env)
 {
