@@ -1,24 +1,10 @@
 #include "main.h"
 
 /**
- * _get_null_index - finds the last index of environ (element NULL).
- *
- * Return: index of NULL in environ if environ exists, or -1.
-*/
-int _get_null_index(void)
-{
-	int i = -1;
-
-	for (i = 0; environ && environ[i]; i++)
-		continue;
-	return (i);
-}
-
-/**
  * env - prints the current environment.
  *
 */
-void env(void)
+void _env(void)
 {
 	int i = 0;
 
@@ -63,6 +49,7 @@ int set_unset_env(char **tokens, char **o_env_elms)
 			return (-1);
 		return (_unsetenv(tokens[1], o_env_elms));
 	}
+	return (-1);
 }
 
 /**

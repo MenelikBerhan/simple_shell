@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
 	ssize_t nread;
 	FILE *fp = stdin;
 	Alias *l_alias = NULL;
+	char **o_env_adrs = NULL, **o_env_elms = NULL;
 	(void)argc;
-	char **o_env_adrs = NULL,  **o_env_elms = NULL;
 
 	o_env_adrs = environ;
 	o_env_elms = malloc(sizeof(char *) * (_get_null_index() + 1));
@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
 		if (line[nread - 1] == 10)
 			line[nread - 1] = 0;
 		trim_in(line);
-		multi_comms(argv[0], line, &l_alias, paths, **o_env_adrs,
-													**o_env_elms);
+		multi_comms(argv[0], line, &l_alias, paths, o_env_adrs,
+													o_env_elms);
 		prompt();
 	}
 	free(line);

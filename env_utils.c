@@ -69,6 +69,21 @@ int _getindex(const char *name, char **envptr)
 
 
 /**
+ * _get_null_index - finds the last index of environ (element NULL).
+ *
+ * Return: index of NULL in environ if environ exists, or -1.
+*/
+int _get_null_index(void)
+{
+	int i = -1;
+
+	for (i = 0; environ && environ[i]; i++)
+		continue;
+	return (i);
+}
+
+
+/**
  * _getenv - finds the value of an environment variable named 'name'.
  * @name: name of environment variable
  *

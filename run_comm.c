@@ -20,7 +20,7 @@ int run_comm(char *sh, char *line, Alias **alias, char **paths,
 	tokens = _strtok(line, " ");
 	check_alias(*alias, &tokens);
 	proc_status = handle_inbuilts(sh, line, paths, tokens, alias,
-									**o_env_adrs, **o_env_elms);
+									o_env_adrs, o_env_elms);
 	if (proc_status != -2)
 		return (proc_status);
 	full_path = add_path(tokens[0], paths);

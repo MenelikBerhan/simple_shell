@@ -25,8 +25,8 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 			comm3 = _strtok(comm2[j], "||");
 			for (k = 0; comm3[k] != NULL; k++)
 			{
-				status = run_comm(sh, comm3[k], alias, paths, **o_env_adrs,
-																**o_env_elms);
+				status = run_comm(sh, comm3[k], alias, paths, o_env_adrs,
+																o_env_elms);
 				if (!status)
 					break;
 			}

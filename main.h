@@ -52,13 +52,14 @@ int count_tokens(char **arr);
 char **get_path(char **env);
 void trim_in(char *s);
 void prompt(void);
-void env(void);
+void _env(void);
 int set_unset_env(char **tokens, char **o_env_elms);
 int _setenv(const char *name, const char *value, int overwrite,
 													char **o_en_el);
 int _unsetenv(const char *name, char **o_env_elms);
 int free_environ(int index, char **o_env_adrs, char **o_env_elms);
 int _getindex(const char *name, char **envptr);
+int _get_null_index(void);
 char *_getenv(const char *name);
 
 #endif
