@@ -14,6 +14,12 @@ int main(int argc, char *argv[])
 	FILE *fp = stdin;
 	Alias *l_alias = NULL;
 	(void)argc;
+	char **o_env_adrs = NULL,  **o_env_elms = NULL;
+
+	o_env_adrs = environ;
+	o_env_elms = malloc(sizeof(char *) * (_get_null_index() + 1));
+	o_env_elms = memcpy(o_env_elms, environ,
+						(sizeof(char *) * (_get_null_index() + 1)));
 
 	signal(SIGINT, handleSigInt);
 
@@ -31,12 +37,14 @@ int main(int argc, char *argv[])
 		if (line[nread - 1] == 10)
 			line[nread - 1] = 0;
 		trim_in(line);
-		multi_comms(argv[0], line, &l_alias, paths);
+		multi_comms(argv[0], line, &l_alias, paths, **o_env_adrs,
+													**o_env_elms);
 		prompt();
 	}
 	free(line);
 	free(*paths);
 	free(paths);
 	free_alias(l_alias);
+	free_environ(-1, o_env_adrs, o_env_elms);
 	return (0);
 }
