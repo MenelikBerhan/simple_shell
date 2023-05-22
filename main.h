@@ -30,9 +30,9 @@ typedef struct alias
 	struct alias *next;
 } Alias;
 
-int handle_inbuilts(char *sh, char *l, char **p, char **t, Alias **a,
+int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 								char **o_env_adrs, char **o_env_elms);
-void exit_shell(char *code, char *l, char **t, char **p, Alias **a,
+void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a,
 								char **o_env_adrs, char **o_env_elms);
 void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 								char **o_env_adrs, char **o_env_elms);
@@ -43,7 +43,7 @@ int child_proc(char *sh, char *path, char **t);
 char *add_path(char *file_name, char **paths);
 char **_strtok(char *str, char *delimiters);
 Alias *search_alias(Alias *dict, char *key);
-void check_alias(Alias *a, char ***t);
+int check_alias(Alias *a, char ***t);
 int _get_line(char **line, FILE *fp);
 int changedir(char *sh, char **t);
 void handleSigInt(int signum);

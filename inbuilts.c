@@ -2,6 +2,7 @@
 
 /**
  * handle_inbuilts - handle inbuilt commands e.g cd, exit
+ * @u_a: is command an alias
  * @sh: shell name
  * @l: line string
  * @p: system paths
@@ -12,30 +13,38 @@
  *
  * Return: 1 if not inbuild command, 0 otherwise
  */
-int handle_inbuilts(char *sh, char *l, char **p, char **t, Alias **a,
-								char **o_env_adrs, char **o_env_elms)
+int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
+										char **o_env_adrs, char **o_env_elms)
 {
 	int status = 0;
 
 	if (!strcmp(t[0], "exit"))
 	{
 		if (t[1])
-			exit_shell(strdup(t[1]), l, t, p, a, o_env_adrs, o_env_elms);
+			exit_shell(u_a, strdup(t[1]), l, t, p, a, o_env_adrs, o_env_elms);
 		else
-			exit_shell(NULL, l, t, p, a, o_env_adrs, o_env_elms);
+			exit_shell(u_a, NULL, l, t, p, a, o_env_adrs, o_env_elms);
 	}
 	if (!strcmp(t[0], "cd"))
 	{
 		status = changedir(sh, t);
 		if (!status)
+		{
+			if (!u_a)
+				free(*t);
 			free(t);
+		}
 		return (status);
 	}
 	if (!strcmp(t[0], "alias"))
 	{
 		status = _alias(sh, t, a);
 		if (!status)
+		{
+			if (!u_a)
+				free(*t);
 			free(t);
+		}
 		return (status);
 	}
 	if (!strcmp(t[0], "env") && !t[1])

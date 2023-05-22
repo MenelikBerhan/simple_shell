@@ -34,13 +34,9 @@ int _read(FILE *fp, size_t *len, char **line)
 			{
 				c = 7;
 				ungetc(c, fp);
-				continue;
 			}
-			else
-			{
-				(*line)[line_len] = '\0';
-				return (line_len);
-			}
+			(*line)[line_len] = '\0';
+			return (line_len);
 		}
 		(*line)[line_len++] = (char)c;
 	}

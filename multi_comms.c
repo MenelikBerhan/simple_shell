@@ -32,12 +32,15 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 			}
 			if (status)
 				break;
+			free(comm3);
 		}
+		free(comm2);
 	}
+	free(comm);
 	if (!isatty(STDIN_FILENO))
 	{
 		snprintf(status_code, sizeof(status_code), "%d", status);
-		exit_shell(status_code, line, NULL, paths, alias, o_env_adrs,
+		exit_shell(1, status_code, line, NULL, paths, alias, o_env_adrs,
 															o_env_elms);
 	}
 }
