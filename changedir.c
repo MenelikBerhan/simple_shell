@@ -30,7 +30,7 @@ int cd_errors(char *sh, char *path)
  *
  * Return: process status
  */
-int changedir(char *sh, char **t)
+int changedir(char *sh, char **t, char **o_env_elms)
 {
 	static char oldpwd[PATH_MAX];
 	char currpwd[PATH_MAX], fullpwd[PATH_MAX], *home;
@@ -39,7 +39,7 @@ int changedir(char *sh, char **t)
 		return (cd_errors(sh, NULL));
 	if (t[1] == NULL)
 	{
-		home = getenv("HOME");
+		home = _getenv("HOME");
 		if (!home)
 			return (1);
 		strncpy(fullpwd, home, sizeof(fullpwd) - 1);
@@ -61,7 +61,7 @@ int changedir(char *sh, char **t)
 	{
 		strncpy(oldpwd, currpwd, sizeof(oldpwd) - 1);
 		oldpwd[sizeof(oldpwd) - 1] = '\0';
-		if (setenv("PWD", fullpwd, 1))
+		if (_setenv("PWD", fullpwd, 1, o_env_elms))
 			return (cd_errors("setenv() error", NULL));
 	}
 	else

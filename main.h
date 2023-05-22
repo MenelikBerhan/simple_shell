@@ -45,7 +45,7 @@ char **_strtok(char *str, char *delimiters);
 Alias *search_alias(Alias *dict, char *key);
 int check_alias(Alias *a, char ***t);
 int _get_line(char **line, FILE *fp);
-int changedir(char *sh, char **t);
+int changedir(char *sh, char **t, char **o_env_elms);
 void handleSigInt(int signum);
 void free_alias(Alias *head);
 int count_tokens(char **arr);

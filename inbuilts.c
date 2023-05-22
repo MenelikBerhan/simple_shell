@@ -27,7 +27,7 @@ int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 	}
 	if (!strcmp(t[0], "cd"))
 	{
-		status = changedir(sh, t);
+		status = changedir(sh, t, o_env_elms);
 		if (!status)
 		{
 			if (!u_a)
