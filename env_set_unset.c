@@ -39,13 +39,13 @@ int set_unset_env(char **tokens, char **o_env_elms)
 	}
 	if (!strcmp(tokens[0], "setenv"))
 	{
-		if (tokens[3] != NULL)
+		if (!tokens[2] || tokens[3])
 			return (-1);
 		return (_setenv(tokens[1], tokens[2], 1, o_env_elms));
 	}
 	if (!strcmp(tokens[0], "unsetenv"))
 	{
-		if (tokens[2] != NULL)
+		if (!tokens[1] || tokens[2])
 			return (-1);
 		return (_unsetenv(tokens[1], o_env_elms));
 	}
