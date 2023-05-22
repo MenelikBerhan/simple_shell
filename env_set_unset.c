@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * env - prints the current environment.
+ * _env - prints the current environment.
  *
 */
 void _env(void)
@@ -121,9 +121,9 @@ int _unsetenv(const char *name, char **o_env_elms)
 	if (index == -1)
 		return (0);
 
-	free_environ(index, NULL, o_env_elms);
 	null_index = _get_null_index();
+	free_environ(index, NULL, o_env_elms);
 	for (i = index; i < null_index; i++)
-		environ[index] = environ[index + 1];
+		environ[i] = environ[i + 1];
 	return (0);
 }
