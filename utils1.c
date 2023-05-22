@@ -32,9 +32,14 @@ void trim_in(char *s)
  * @t: input tokens
  * @p: paths
  * @a: current alias list
+ * @o_env_adrs: pointer to a pointer to the original environ.
+ * @o_env_elms: pointer to an array of original environ elements address.
+ *
  */
-void exit_shell(char *code, char *l, char **t, char **p, Alias **a)
+void exit_shell(char *code, char *l, char **t, char **p, Alias **a,
+								char **o_env_adrs, char **o_env_elms)
 {
+	free_environ(-1, o_env_adrs, o_env_elms);
 	free(t);
 	free(l);
 	free(*p);
