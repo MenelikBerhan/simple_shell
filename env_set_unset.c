@@ -30,23 +30,35 @@ int set_unset_env(char **tokens, char **o_env_elms)
 	int i, len_name;
 
 	if (!(tokens[1]) || !(*(tokens[1])))
+	{
+		write(STDERR_FILENO, "error: name can't be a NULL pointer or zero length string\n", 58);
 		return (-1);
+	}
 	len_name = strlen(tokens[1]);
 	for (i = 0; i < len_name; i++)
 	{
 		if (tokens[1][i] == '=')
+		{
+			write(STDERR_FILENO, "error: name can't contain '='\n", 30);
 			return (-1);
+		}
 	}
 	if (!strcmp(tokens[0], "setenv"))
 	{
 		if (!tokens[2] || tokens[3])
+		{
+			write(STDERR_FILENO, "error: proper usage: setenv VARIABLE VALUE\n", 43);
 			return (-1);
+		}
 		return (_setenv(tokens[1], tokens[2], 1, o_env_elms));
 	}
 	if (!strcmp(tokens[0], "unsetenv"))
 	{
 		if (!tokens[1] || tokens[2])
+		{
+			write(STDERR_FILENO, "error: proper usage: unsetenv VARIABLE\n", 39);
 			return (-1);
+		}
 		return (_unsetenv(tokens[1], o_env_elms));
 	}
 	return (-1);
