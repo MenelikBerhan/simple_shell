@@ -28,15 +28,20 @@ int _read(FILE *fp, size_t *len, char **line)
 			(*line)[line_len] = '\0';
 			return (line_len);
 		}
-		if ((c == 4 || c == EOF) && line_len > 1)
+		if (c == EOF)
 		{
-			if (i_mode)
+			if (line_len > 1)
 			{
-				c = 7;
-				ungetc(c, fp);
+				if (i_mode)
+				{
+					c = 7;
+					ungetc(c, fp);
+				}
+				(*line)[line_len] = '\0';
+				return (line_len);
 			}
-			(*line)[line_len] = '\0';
-			return (line_len);
+			else
+				return (-1);
 		}
 		(*line)[line_len++] = (char)c;
 	}
@@ -58,7 +63,6 @@ int _get_line(char **line, FILE *fp)
 	if (!line || !len || !fp)
 		return (-1);
 	*line = malloc(len);
-	memset(*line, 0, len);
 	if (!(*line))
 		return (-1);
 	memset(*line, 0, len);
