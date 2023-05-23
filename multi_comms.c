@@ -40,9 +40,9 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 				if (!status)
 					break;
 			}
+			free(comm3);
 			if (status)
 				break;
-			free(comm3);
 		}
 		free(comm2);
 	}
