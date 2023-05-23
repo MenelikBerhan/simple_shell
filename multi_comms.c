@@ -16,6 +16,7 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 	char status_code[20];
 	int i, j, k, status, is_exit;
 
+	handle_comment(line);
 	comm = _strtok(line, ";\n");
 	for (i = 0; comm[i] != NULL; i++)
 	{

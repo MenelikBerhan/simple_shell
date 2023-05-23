@@ -17,6 +17,45 @@ void _env(void)
 }
 
 /**
+ * set_unset_error - prints an error message.
+ * @error: integer indicating error type.
+ *
+ * Return: always -1 successful or 1 for failure.
+*/
+int set_unset_error(int error)
+{
+	if (error == 0)
+	{
+		write(STDERR_FILENO, "error: name can't be a NULL pointer ", 36);
+		write(STDERR_FILENO, "or zero length string\n", 22);
+		return (-1);
+	}
+	if (error == 1)
+	{
+		write(STDERR_FILENO, "error: the first character of name ", 35);
+		write(STDERR_FILENO, "should be a letter or '_'\n", 26);
+		return (-1);
+	}
+	if (error == 2)
+	{
+		write(STDERR_FILENO, "error: name can't contain '='\n", 30);
+		return (-1);
+	}
+	if (error == 3)
+	{
+		write(STDERR_FILENO, "error: proper usage: setenv VARIABLE VALUE\n", 43);
+		return (-1);
+	}
+	if (error == 4)
+	{
+		write(STDERR_FILENO, "error: proper usage: unsetenv VARIABLE\n", 39);
+		return (-1);
+	}
+	return (1);
+}
+
+
+/**
  * set_unset_env - a helper function that calls setenv or unsetenv.
  * @tokens: pointer to an array of command arguments.
  * @o_env_elms: pointer to an array of original environ elements address.
@@ -28,37 +67,28 @@ void _env(void)
 int set_unset_env(char **tokens, char **o_env_elms)
 {
 	int i, len_name;
+	char *e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
 	if (!(tokens[1]) || !(*(tokens[1])))
-	{
-		write(STDERR_FILENO, "error: name can't be a NULL pointer or zero length string\n", 58);
-		return (-1);
-	}
+		return (set_unset_error(0));
+	if (strcspn(tokens[1], e))
+		return (set_unset_error(1));
 	len_name = strlen(tokens[1]);
 	for (i = 0; i < len_name; i++)
 	{
 		if (tokens[1][i] == '=')
-		{
-			write(STDERR_FILENO, "error: name can't contain '='\n", 30);
-			return (-1);
-		}
+			return (set_unset_error(2));
 	}
 	if (!strcmp(tokens[0], "setenv"))
 	{
 		if (!tokens[2] || tokens[3])
-		{
-			write(STDERR_FILENO, "error: proper usage: setenv VARIABLE VALUE\n", 43);
-			return (-1);
-		}
+			return (set_unset_error(3));
 		return (_setenv(tokens[1], tokens[2], 1, o_env_elms));
 	}
 	if (!strcmp(tokens[0], "unsetenv"))
 	{
 		if (!tokens[1] || tokens[2])
-		{
-			write(STDERR_FILENO, "error: proper usage: unsetenv VARIABLE\n", 39);
-			return (-1);
-		}
+			return (set_unset_error(4));
 		return (_unsetenv(tokens[1], o_env_elms));
 	}
 	return (-1);
