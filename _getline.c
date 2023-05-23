@@ -25,12 +25,17 @@ int _read(FILE *fp, size_t *len, char **line)
 		}
 		if (c == '\n' && i_mode)
 		{
-			(*line)[line_len] = '\0';
-			return (line_len);
+			if (line_len > 0)
+			{
+				(*line)[line_len] = '\0';
+				return (line_len);
+			}
+			else
+				return (0);
 		}
 		if (c == EOF)
 		{
-			if (line_len > 1)
+			if (line_len > 0)
 			{
 				if (i_mode)
 				{

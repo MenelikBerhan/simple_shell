@@ -27,8 +27,9 @@ int main(int argc, char *argv[])
 	paths = get_path(environ);
 	while ((nread = _get_line(&line, fp)) != -1)
 	{
-		if (nread == 1 && *line == 10)
+		if ((nread == 1 && *line == 10) || nread == 0)
 		{
+			free(line);
 			prompt();
 			continue;
 		}
