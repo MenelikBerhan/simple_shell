@@ -61,5 +61,7 @@ int free_environ(int index, char **o_env_adrs, char **o_env_elms);
 int _getindex(const char *name, char **envptr);
 int _get_null_index(void);
 char *_getenv(const char *name);
+char *handle_expansion(char **line, int prev_status);
+void handle_comment(char *str);
 
 #endif
