@@ -48,6 +48,7 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 					free_all_t(line, comm, comm2, comm3);
 				status = run_comm(sh, temp, alias, paths, o_env_adrs,
 								  o_env_elms);
+				free(temp);
 				if (!status)
 					break;
 			}
