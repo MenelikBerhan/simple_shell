@@ -34,7 +34,7 @@ int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 								char **o_env_adrs, char **o_env_elms);
 void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a,
 								char **o_env_adrs, char **o_env_elms);
-void multi_comms(char *sh, char *line, Alias **alias, char **paths,
+void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 								char **o_env_adrs, char **o_env_elms);
 int run_comm(char *sh, char *line, Alias **alias, char **paths,
 								char **o_env_adrs, char **o_env_elms);
@@ -63,5 +63,6 @@ int _get_null_index(void);
 char *_getenv(const char *name);
 char *handle_expansion(char **line, int prev_status);
 void handle_comment(char *str);
+int run_frm_file(char *argv[]);
 
 #endif

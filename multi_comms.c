@@ -2,6 +2,7 @@
 
 /**
  * multi_comms - splits multiple comm and runs them
+ * @f: read from file
  * @sh: shell name
  * @line: line input
  * @alias: alias list
@@ -9,11 +10,10 @@
  * @o_env_adrs: pointer to a pointer to the original environ.
  * @o_env_elms: pointer to an array of original environ elements address.
  */
-void multi_comms(char *sh, char *line, Alias **alias, char **paths,
+void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 				 char **o_env_adrs, char **o_env_elms)
 {
-	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL;
-	char status_code[20];
+	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL, status_code[20];
 	int i, j, k, status, is_exit;
 
 	handle_comment(line);
@@ -36,8 +36,7 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 					free(comm);
 					run_comm(sh, temp, alias, paths, o_env_adrs, o_env_elms);
 				}
-				status = run_comm(sh, comm3[k], alias, paths, o_env_adrs,
-								  o_env_elms);
+				status = run_comm(sh, comm3[k], alias, paths, o_env_adrs, o_env_elms);
 				if (!status)
 					break;
 			}
@@ -48,7 +47,7 @@ void multi_comms(char *sh, char *line, Alias **alias, char **paths,
 		free(comm2);
 	}
 	free(comm);
-	if (!isatty(STDIN_FILENO))
+	if (!isatty(STDIN_FILENO) && !f)
 	{
 		snprintf(status_code, sizeof(status_code), "%d", status);
 		exit_shell(1, status_code, line, NULL, paths, alias, o_env_adrs,
