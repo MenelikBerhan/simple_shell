@@ -1,6 +1,18 @@
 #include "main.h"
 
 /**
+ * free_t - free input tokens
+ * @u_a: is alias used
+ * @t: input tokens
+ */
+void free_t(int u_a, char **t)
+{
+	if (!u_a)
+		free(*t);
+	free(t);
+}
+
+/**
  * handle_inbuilts - handle inbuilt commands e.g cd, exit
  * @u_a: is command an alias
  * @sh: shell name
@@ -29,34 +41,26 @@ int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 	{
 		status = changedir(sh, t, o_env_elms);
 		if (!status)
-		{
-			if (!u_a)
-				free(*t);
-			free(t);
-		}
+			free_t(u_a, t);
 		return (status);
 	}
 	if (!strcmp(t[0], "alias"))
 	{
 		status = _alias(sh, t, a);
 		if (!status)
-		{
-			if (!u_a)
-				free(*t);
-			free(t);
-		}
+			free_t(u_a, t);
 		return (status);
 	}
 	if (!strcmp(t[0], "env") && !t[1])
 	{
 		_env();
-		free(t);
+		free_t(u_a, t);
 		return (0);
 	}
 	if (!(strcmp(t[0], "setenv")) || !(strcmp(t[0], "unsetenv")))
 	{
 		status = set_unset_env(t, o_env_elms);
-		free(t);
+		free_t(u_a, t);
 		return (status);
 	}
 	return (-2);

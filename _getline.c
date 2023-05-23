@@ -10,13 +10,12 @@
  */
 int _read(FILE *fp, size_t *len, char **line)
 {
-	int c, i_mode = isatty(STDIN_FILENO);
-	size_t line_len = strlen(*line);
+	int c, i_mode = isatty(STDIN_FILENO), line_len = strlen(*line);
 
 	while (1)
 	{
 		c = fgetc(fp);
-		if (line_len > *len - 1)
+		if ((size_t)line_len > *len - 1)
 		{
 			*len *= 2;
 			*line = realloc(*line, *len);
