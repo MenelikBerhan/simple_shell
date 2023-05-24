@@ -32,7 +32,7 @@ int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 
 	if (!strcmp(t[0], "exit"))
 	{
-			exit_shell(u_a, NULL, l, t, p, a, o_env_adrs, o_env_elms);
+			exit_shell(u_a, l, t, p, a, o_env_adrs, o_env_elms);
 	}
 	if (!strcmp(t[0], "cd"))
 	{
