@@ -28,7 +28,7 @@ void free_all_t(char *l, char **c, char **c2, char **c3)
 void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 				 char **o_env_adrs, char **o_env_elms)
 {
-	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL, status_code[20];
+	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL;
 	int i, j, k, is_exit;
 	static int status = 1;
 
@@ -60,8 +60,5 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 	}
 	free(comm);
 	if (!isatty(STDIN_FILENO) && !f)
-	{
-		snprintf(status_code, sizeof(status_code), "%d", status);
-		exit_shell(1, line, NULL, paths, alias, o_env_adrs, o_env_elms);
-	}
+		exit_shell(1, status, line, NULL, paths, alias, o_env_adrs, o_env_elms);
 }

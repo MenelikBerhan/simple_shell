@@ -28,6 +28,7 @@ void trim_in(char *s)
 /**
  * exit_shell - handle exit commands and parameters
  * @u_a: is command an alias
+ * @status: previous command process status
  * @l: line string
  * @t: input tokens
  * @p: paths
@@ -36,12 +37,12 @@ void trim_in(char *s)
  * @o_env_elms: pointer to an array of original environ elements address.
  *
  */
-void exit_shell(int u_a, char *l, char **t, char **p, Alias **a,
+void exit_shell(int u_a, int status, char *l, char **t, char **p, Alias **a,
 				char **o_env_adrs, char **o_env_elms)
 {
-	int c = 0;
+	int c = status;
 
-	if (t[1])
+	if (t && t[1])
 		c = atoi(t[1]);
 	if (!u_a)
 		free(*t);
