@@ -19,6 +19,8 @@ int run_comm(char *sh, char *line, Alias **alias, char **paths,
 	static int err_no = 1;
 
 	tokens = _strtok(line, " ");
+	if (!tokens || !(*tokens))
+		return (0);
 	u_alias = check_alias(*alias, &tokens);
 	proc_status = handle_inbuilts(u_alias, sh, line, paths, tokens, alias,
 								  o_env_adrs, o_env_elms);
