@@ -62,7 +62,6 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 	if (!isatty(STDIN_FILENO) && !f)
 	{
 		snprintf(status_code, sizeof(status_code), "%d", status);
-		exit_shell(1, status_code, line, NULL, paths, alias, o_env_adrs,
-				   o_env_elms);
+		exit_shell(1, line, NULL, paths, alias, o_env_adrs, o_env_elms);
 	}
 }
