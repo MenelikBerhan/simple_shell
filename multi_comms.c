@@ -34,7 +34,7 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 
 	handle_comment(line);
 	comm = _strtok(line, ";\n");
-	for (i = 0; comm[i] != NULL; i++)
+	for (i = 0; comm && comm[i] != NULL; i++)
 	{
 		comm2 = _strtok(comm[i], "&&");
 		for (j = 0; comm2[j] != NULL; j++)
