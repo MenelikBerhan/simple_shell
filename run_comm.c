@@ -16,6 +16,7 @@ int run_comm(char *sh, char *line, Alias **alias, char **paths,
 {
 	char *full_path, **tokens;
 	int proc_status = -1, u_alias = 1;
+	static int err_no = 1;
 
 	tokens = _strtok(line, " ");
 	u_alias = check_alias(*alias, &tokens);
@@ -37,7 +38,8 @@ int run_comm(char *sh, char *line, Alias **alias, char **paths,
 	else
 	{
 		proc_status = 127;
-		fprintf(stderr, "%s: 1: %s: not found\n", sh, tokens[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n", sh, err_no, tokens[0]);
+		err_no++;
 	}
 	free(full_path);
 	if (!u_alias)
