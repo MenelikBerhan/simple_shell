@@ -32,7 +32,7 @@ typedef struct alias
 
 int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 					char **o_env_adrs, char **o_env_elms);
-void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a,
+void exit_shell(int u_a, char *l, char **t, char **p, Alias **a,
 				char **o_env_adrs, char **o_env_elms);
 void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 				 char **o_env_adrs, char **o_env_elms);
