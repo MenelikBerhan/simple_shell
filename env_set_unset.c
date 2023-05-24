@@ -6,13 +6,39 @@
 */
 void _env(void)
 {
-	int i = 0;
+	int i = 0, rem, loop = 0;
+	char to_print[1024];
 
+	to_print[0] = 0;
 	while (environ && environ[i])
 	{
-		dprintf(STDOUT_FILENO, "%s\n", environ[i]);
+		if (strlen(to_print) + strlen(environ[i]) + 2 > 1024)
+		{
+			fflush(stdout);
+			write(STDOUT_FILENO, to_print, strlen(to_print));
+			to_print[0] = 0;
+		}
+		if (strlen(to_print) == 0 && strlen(environ[i]) + 2 > 1024)
+		{
+			rem = strlen(environ[i]) + 2 - 1024;
+			while (rem > 0)
+			{
+				fflush(stdout);
+				write(STDOUT_FILENO, (environ[i] + (1024 * loop)), 1024);
+				rem -= 1024;
+				loop++;
+			}
+			sprintf(to_print + strlen(to_print), "%s\n", (environ[i] + (1024 * loop)));
+			i++;
+			continue;
+		}
+		sprintf(to_print + strlen(to_print), "%s\n", environ[i]);
 		i++;
 	}
+	fflush(stdout);
+	if (strlen(to_print))
+		write(STDOUT_FILENO, to_print, strlen(to_print));
+
 }
 
 /**
