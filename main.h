@@ -30,13 +30,13 @@ typedef struct alias
 	struct alias *next;
 } Alias;
 
-int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
-					char **o_env_adrs, char **o_env_elms);
+int handle_inbuilts(int p_s, int u_a, char *sh, char *l, char **p, char **t,
+		Alias **a, char **o_env_adrs, char **o_env_elms);
 void exit_shell(int u_a, int status, char *l, char **t, char **p, Alias **a,
 				char **o_env_adrs, char **o_env_elms);
 void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 				 char **o_env_adrs, char **o_env_elms);
-int run_comm(char *sh, char *line, Alias **alias, char **paths,
+int run_comm(int p_s, char *sh, char *line, Alias **alias, char **paths,
 			 char **o_env_adrs, char **o_env_elms);
 int _alias(char *sh, char **t, Alias **alias_list);
 int child_proc(char *sh, char *path, char **t);

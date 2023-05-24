@@ -2,6 +2,7 @@
 
 /**
  * run_comm - runs a command
+ * @p_s: previous process status
  * @sh: shell name
  * @line: line input
  * @alias: alias list
@@ -11,7 +12,7 @@
  *
  * Return: process status
  */
-int run_comm(char *sh, char *line, Alias **alias, char **paths,
+int run_comm(int p_s, char *sh, char *line, Alias **alias, char **paths,
 			 char **o_env_adrs, char **o_env_elms)
 {
 	char *full_path, **tokens;
@@ -22,7 +23,7 @@ int run_comm(char *sh, char *line, Alias **alias, char **paths,
 	if (!tokens || !(*tokens))
 		return (0);
 	u_alias = check_alias(*alias, &tokens);
-	proc_status = handle_inbuilts(u_alias, sh, line, paths, tokens, alias,
+	proc_status = handle_inbuilts(p_s, u_alias, sh, line, paths, tokens, alias,
 								  o_env_adrs, o_env_elms);
 	if (proc_status != -2)
 	{

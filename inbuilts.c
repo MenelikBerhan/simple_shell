@@ -14,6 +14,7 @@ void free_t(int u_a, char **t)
 
 /**
  * handle_inbuilts - handle inbuilt commands e.g cd, exit
+ * @p_s: previous process status
  * @u_a: is command an alias
  * @sh: shell name
  * @l: line string
@@ -25,13 +26,13 @@ void free_t(int u_a, char **t)
  *
  * Return: 1 if not inbuild command, 0 otherwise
  */
-int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
-					char **o_env_adrs, char **o_env_elms)
+int handle_inbuilts(int p_s, int u_a, char *sh, char *l, char **p, char **t,
+		Alias **a, char **o_env_adrs, char **o_env_elms)
 {
 	int status = 0;
 
 	if (!strcmp(t[0], "exit"))
-		exit_shell(u_a, 0, l, t, p, a, o_env_adrs, o_env_elms);
+		exit_shell(u_a, p_s, l, t, p, a, o_env_adrs, o_env_elms);
 	if (!strcmp(t[0], "cd"))
 	{
 		status = changedir(sh, t, o_env_elms);

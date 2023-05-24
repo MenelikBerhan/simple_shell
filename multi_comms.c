@@ -30,7 +30,7 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 {
 	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL;
 	int i, j, k, is_exit;
-	static int status = 1;
+	static int status = 2;
 
 	handle_comment(line);
 	comm = _strtok(line, ";\n");
@@ -46,7 +46,7 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 				is_exit = strspn(comm3[k], "exit");
 				if (is_exit == 4 || is_exit == 5)
 					free_all_t(line, comm, comm2, comm3);
-				status = run_comm(sh, temp, alias, paths, o_env_adrs,
+				status = run_comm(status, sh, temp, alias, paths, o_env_adrs,
 								  o_env_elms);
 				free(temp);
 				if (!status)
