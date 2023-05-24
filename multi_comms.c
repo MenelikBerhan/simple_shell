@@ -43,7 +43,7 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 			for (k = 0; comm3[k] != NULL; k++)
 			{
 				temp = handle_expansion(strdup(comm3[k]), status);
-				is_exit = strspn(comm3[k], " exit");
+				is_exit = strspn(comm3[k], "exit");
 				if (is_exit == 4 || is_exit == 5)
 					free_all_t(line, comm, comm2, comm3);
 				status = run_comm(sh, temp, alias, paths, o_env_adrs,
