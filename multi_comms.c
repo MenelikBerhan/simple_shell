@@ -16,6 +16,35 @@ void free_all_t(char *l, char **c, char **c2, char **c3)
 }
 
 /**
+ * neg_exit - handles exit with negative exit codes
+ * @temp: current exit command
+ * @sh: shell name
+ * @status: status buffer
+ *
+ * Return: 1 if is negative, 0 otherwise
+ */
+int neg_exit(char *temp, char *sh, int *status)
+{
+	char *t = temp + strcspn(temp, " "), *t2;
+	char *nums = "0123456789";
+	int e_c;
+
+	if (strspn(t, " "))
+	{
+		e_c = atoi(t + 1);
+		t2 = t + strspn(t, nums);
+		if (t2 || e_c < 0)
+		{
+			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", sh, (t + 1));
+			*status = 2;
+			free(temp);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+/**
  * multi_comms - splits multiple comm and runs them
  * @f: read from file
  * @sh: shell name
@@ -29,7 +58,7 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 				 char **o_env_adrs, char **o_env_elms)
 {
 	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL;
-	int i, j, k, is_exit;
+	int i, j, k, is_exit, is_neg;
 	static int status;
 
 	status = 0;
@@ -46,7 +75,12 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 				temp = handle_expansion(strdup(comm3[k]), status);
 				is_exit = strspn(comm3[k], "exit");
 				if (is_exit == 4 || is_exit == 5)
+				{
+					is_neg = neg_exit(temp, sh, &status);
+					if (is_neg)
+						continue;
 					free_all_t(line, comm, comm2, comm3);
+				}
 				status = run_comm(status, sh, temp, alias, paths, o_env_adrs,
 								  o_env_elms);
 				free(temp);
