@@ -30,8 +30,9 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 {
 	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL;
 	int i, j, k, is_exit;
-	static int status = 2;
+	static int status;
 
+	status = 0;
 	handle_comment(line);
 	comm = _strtok(line, ";\n");
 	for (i = 0; comm && comm[i] != NULL; i++)
