@@ -10,8 +10,7 @@ void _env(void)
 
 	while (environ && environ[i])
 	{
-		write(STDOUT_FILENO, environ[i], strlen(environ[i]));
-		write(STDOUT_FILENO, "\n", 1);
+		dprintf(STDOUT_FILENO, "%s\n", environ[i]);
 		i++;
 	}
 }
