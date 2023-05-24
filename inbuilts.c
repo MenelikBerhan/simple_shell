@@ -51,12 +51,16 @@ int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 			free_t(u_a, t);
 		return (status);
 	}
-	if (!strcmp(t[0], "env") && !t[1])
+	if (!strcmp(t[0], "env"))
 	{
-		_env();
+		if (t[1])
+			dprintf(STDERR_FILENO, "error: proper usage: env\n");
+		else
+			_env();
+		status = 0;
 		if (!status)
 			free_t(u_a, t);
-		return (0);
+		return (status);
 	}
 	if (!(strcmp(t[0], "setenv")) || !(strcmp(t[0], "unsetenv")))
 	{
