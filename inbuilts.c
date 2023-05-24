@@ -49,13 +49,16 @@ int handle_inbuilts(int u_a, char *sh, char *l, char **p, char **t, Alias **a,
 	if (!strcmp(t[0], "env") && !t[1])
 	{
 		_env();
-		free_t(u_a, t);
+		status = 0;
+		if (!status)
+			free_t(u_a, t);
 		return (0);
 	}
 	if (!(strcmp(t[0], "setenv")) || !(strcmp(t[0], "unsetenv")))
 	{
 		status = set_unset_env(t, o_env_elms);
-		free_t(u_a, t);
+		if (!status)
+			free_t(u_a, t);
 		return (status);
 	}
 	return (-2);
