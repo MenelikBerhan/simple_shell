@@ -40,6 +40,11 @@ void trim_in(char *s)
 void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a,
 				char **o_env_adrs, char **o_env_elms)
 {
+	int c = 0;
+	(void)code;
+
+	if (t[1])
+		c = atoi(t[1]);
 	if (!u_a)
 		free(*t);
 	free_environ(-1, o_env_adrs, o_env_elms);
@@ -48,9 +53,7 @@ void exit_shell(int u_a, char *code, char *l, char **t, char **p, Alias **a,
 	free(*p);
 	free(p);
 	free_alias(*a);
-	if (code)
-		exit(atoi(code));
-	exit(0);
+	exit(c);
 }
 
 /**
