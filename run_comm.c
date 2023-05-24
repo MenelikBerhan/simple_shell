@@ -22,7 +22,15 @@ int run_comm(char *sh, char *line, Alias **alias, char **paths,
 	proc_status = handle_inbuilts(u_alias, sh, line, paths, tokens, alias,
 								  o_env_adrs, o_env_elms);
 	if (proc_status != -2)
+	{
+		if (proc_status)
+		{
+			if (!u_alias)
+				free(*tokens);
+			free(tokens);
+		}
 		return (proc_status);
+	}
 	full_path = add_path(tokens[0], paths);
 	if (full_path)
 		proc_status = child_proc(sh, full_path, tokens);

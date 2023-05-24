@@ -20,13 +20,14 @@ int cd_errors(char *sh, char *path)
 	}
 	else
 		fprintf(stderr, "%s: cd: %s: No such file or directory\n", sh, path);
-	return (1);
+	return (-1);
 }
 
 /**
  * changedir - change directories
  * @sh: shell name
  * @t: input tokens
+ * @o_env_elms: pointer to an array of original environ elements address.
  *
  * Return: process status
  */
