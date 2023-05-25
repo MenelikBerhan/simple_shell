@@ -32,7 +32,7 @@ int child_proc(char *sh, char *path, char **t)
 			perror("Error:");
 			return (-1);
 		}
-		return (2);
+		return (status);
 	}
 	return (0);
 }
