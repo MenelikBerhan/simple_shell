@@ -32,8 +32,8 @@ int neg_exit(char *temp, char *sh, int *status)
 	if (strspn(t, " "))
 	{
 		e_c = atoi(t + 1);
-		t2 = t + strspn(t, nums);
-		if (t2 || e_c < 0)
+		t2 = t + strspn(t + 1, nums) + 1;
+		if (*t2 != '\0' || e_c < 0)
 		{
 			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", sh, (t + 1));
 			*status = 2;
