@@ -59,13 +59,11 @@ void print_all(Alias *dict)
 {
 	Alias *curr = dict;
 
-	if (curr && curr->next)
+	while (curr)
 	{
-		print_all(curr->next);
-	}
-	if (curr)
 		printf("%s='%s'\n", curr->key, curr->value);
-		/* curr = curr->next; */
+		curr = curr->next;
+	}
 }
 
 /**
