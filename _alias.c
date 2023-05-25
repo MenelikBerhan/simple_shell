@@ -76,7 +76,7 @@ void print_all(Alias *dict)
  */
 int _alias(char *sh, char **t, Alias **alias_list)
 {
-	Alias *temp;
+	Alias *temp, *temp2;
 	char **args;
 	int i;
 
@@ -89,14 +89,15 @@ int _alias(char *sh, char **t, Alias **alias_list)
 			args = _strtok(t[i], "='\"");
 			if (args[1])
 			{
+				temp2 = search_alias(*alias_list, args[1]);
 				temp = search_alias(*alias_list, args[0]);
 				if (temp)
 				{
 					free(temp->value);
-					temp->value = strdup(args[1]);
+					temp->value = temp2 ? strdup(temp2->value) : strdup(args[1]);
 					return (0);
 				}
-				add_alias(alias_list, args[0], args[1]);
+				add_alias(alias_list, args[0], (temp2 ? temp2->value : args[1]));
 			}
 			else
 			{
