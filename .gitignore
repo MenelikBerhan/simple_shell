@@ -1,2 +1,21 @@
-test
-*.bash
+working/*
+*.o
+Tasks_shrt
+test*
+run_all
+run_test
+run_shell
+trial/*
+simple_shell
+compile/*
+
+env_all_in_one.bak
+.vscode/settings.json
+handle_special_chars.bak
+comment_and_expansion _test.bak
+comment_and_expansion_test.c
+comment_and_expansion_test.bak
+.gitignore copy
+a
+hsh
+.gitignore
