@@ -83,7 +83,6 @@ int _alias(char *sh, char **t, Alias **alias_list)
 	{
 		for (i = 1; t[i]; i++)
 		{
-			printf("Token [%d]: %s\n", i, t[i]);
 			args = _strtok(t[i], "='\"");
 			if (args[1])
 			{
