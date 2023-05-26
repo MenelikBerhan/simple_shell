@@ -71,8 +71,7 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 			comm3 = _strtok(comm2[j], "||");
 			for (k = 0; comm3[k] != NULL; k++)
 			{
-				if (status == 100000)
-					status = 0;
+				status = status == 100000 ? 0 : status;
 				temp = handle_expansion(strdup(comm3[k]), status);
 				is_exit = strspn(comm3[k], "exit");
 				if (is_exit == 4 || is_exit == 5)
@@ -95,6 +94,7 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 		free(comm2);
 	}
 	free(comm);
+	status = status == 100000 ? 0 : status;
 	if (!isatty(STDIN_FILENO) && !f)
 		exit_shell(1, status, line, NULL, paths, alias, o_env_adrs, o_env_elms);
 }
