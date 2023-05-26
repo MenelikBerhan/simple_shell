@@ -15,7 +15,7 @@ char **get_path(char **env)
 	for (i = 0; env && env[i]; i++)
 	{
 		/* if (strspn(env[i], "PATH=") == 5) */
-		if (!strcmp(env[i], "PATH="))
+		if (!strncmp(env[i], "PATH=", 5))
 		{
 			path = env[i];
 			break;
