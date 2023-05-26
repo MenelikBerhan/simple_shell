@@ -77,12 +77,14 @@ int _alias(char *sh, char **t, Alias **alias_list)
 	char **args;
 	int i;
 
+	printf("Tokens length: %d\n", count_tokens(t));
 	if (!t[1])
 		print_all(*alias_list);
 	else
 	{
 		for (i = 1; t[i]; i++)
 		{
+			printf("Token [%d]: %s\n", i, t[i]);
 			args = _strtok(t[i], "='\"");
 			if (args[1])
 			{
@@ -92,6 +94,7 @@ int _alias(char *sh, char **t, Alias **alias_list)
 				{
 					free(temp->value);
 					temp->value = temp2 ? strdup(temp2->value) : strdup(args[1]);
+					free(args);
 					return (0);
 				}
 				add_alias(alias_list, args[0], (temp2 ? temp2->value : args[1]));
@@ -104,6 +107,7 @@ int _alias(char *sh, char **t, Alias **alias_list)
 				else
 				{
 					fprintf(stderr, "%s: alias: %s: not found\n", sh, args[0]);
+					free(args);
 					return (1);
 				}
 			}
