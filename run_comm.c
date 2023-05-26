@@ -36,7 +36,7 @@ int run_comm(int p_s, char *sh, char *line, Alias **alias, char **paths,
 		return (proc_status);
 	}
 	full_path = add_path(tokens[0], paths);
-	if (full_path && paths)
+	if (full_path/*  && paths */)
 	{
 		proc_status = child_proc(sh, full_path, tokens);
 		proc_status = !proc_status ? 0 : 2;
