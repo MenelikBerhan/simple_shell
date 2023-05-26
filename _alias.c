@@ -57,13 +57,10 @@ Alias *search_alias(Alias *dict, char *key)
  */
 void print_all(Alias *dict)
 {
-	Alias *curr = dict;
-
-	while (curr)
-	{
-		printf("%s='%s'\n", curr->key, curr->value);
-		curr = curr->next;
-	}
+	if (!dict)
+		return;
+	print_all(dict->next);
+	printf("%s='%s'\n", dict->key, dict->value);
 }
 
 /**
