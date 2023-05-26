@@ -59,9 +59,8 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 {
 	char *temp, **comm = NULL, **comm2 = NULL, **comm3 = NULL;
 	int i, j, k, is_exit, is_neg;
-	static int status;
+	static int status = 100000;
 
-	status = 0;
 	handle_comment(line);
 	comm = _strtok(line, ";\n");
 	for (i = 0; comm && comm[i] != NULL; i++)
@@ -72,6 +71,8 @@ void multi_comms(int f, char *sh, char *line, Alias **alias, char **paths,
 			comm3 = _strtok(comm2[j], "||");
 			for (k = 0; comm3[k] != NULL; k++)
 			{
+				if (status == 100000)
+					status = 0;
 				temp = handle_expansion(strdup(comm3[k]), status);
 				is_exit = strspn(comm3[k], "exit");
 				if (is_exit == 4 || is_exit == 5)

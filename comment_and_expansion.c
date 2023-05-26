@@ -52,10 +52,12 @@ void handle_comment(char *str)
  * @i: pointer to current index
  * @r_len: length of characters to remove after expansion
  * @p_s: return or exit status of previously executed program
+ * @f_tmp: pointer to integer showing if temp should be freed.
  *
  * Return: 1 if the loop should continue, or 0 otherwise.
  */
-int expansion_helper(char **str, char **temp, int *i, int *r_len, int p_s)
+int expansion_helper(char **str, char **temp, int *i, int *r_len, int p_s
+			, int *f_tmp)
 {
 	char *e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_?$";
 	char *n = "0123456789";
@@ -64,22 +66,26 @@ int expansion_helper(char **str, char **temp, int *i, int *r_len, int p_s)
 	{
 		if (strspn((*str) + *i + 1, n))
 		{
-			*r_len = 1;
+			*r_len = 2;
 			*temp = "";
 		}
 		else
 		{
-			i++;
+			/* i++; */
 			return (1);
 		}
 	}
 	else if ((*str)[*i + 1] == '?')
 	{
+		(*temp) = malloc(sizeof(char) * 20);
+		*f_tmp = 1;
 		*r_len = 2;
 		snprintf(*temp, 16, "%d", p_s);
 	}
 	else if ((*str)[*i + 1] == '$')
 	{
+		(*temp) = malloc(sizeof(char) * 20);
+		*f_tmp = 1;
 		*r_len = 2;
 		snprintf(*temp, 16, "%d", getpid());
 	}
@@ -95,7 +101,7 @@ int expansion_helper(char **str, char **temp, int *i, int *r_len, int p_s)
  */
 char *handle_expansion(char *str, int prev_status)
 {
-	int i, j, len, a_len, r_len, t_n_sp, is_name = 0;
+	int i, j, len, a_len, r_len, t_n_sp, is_name = 0, f_tmp = 0;
 	char *e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_?$";
 	char *temp, *name;
 
@@ -106,7 +112,7 @@ char *handle_expansion(char *str, int prev_status)
 		{
 			if (!strspn(str + i + 1, e) || str[i + 1] == '?' || str[i + 1] == '$')
 			{
-				if (expansion_helper(&str, &temp, &i, &r_len, prev_status))
+				if (expansion_helper(&str, &temp, &i, &r_len, prev_status, &f_tmp))
 					continue;
 			}
 			else
@@ -127,6 +133,8 @@ char *handle_expansion(char *str, int prev_status)
 			for (j = 0; j < a_len; j++)
 				str[i + j] = temp[j];
 			len = strlen(str);
+			if (f_tmp)
+				free(temp);
 			i = i + a_len;
 		}
 	}
