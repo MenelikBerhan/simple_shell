@@ -18,7 +18,7 @@ int run_frm_file(char *argv[])
 	if (stat(argv[1], &st) != 0)
 	{
 		fprintf(stderr, "%s: %d: Can't open %s\n", argv[0], 0, argv[1]);
-		exit(1);
+		exit(127);
 	}
 	else
 		fp = fopen(argv[1], "r");
