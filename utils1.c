@@ -49,7 +49,8 @@ void exit_shell(int u_a, int status, char *l, char **t, char **p, Alias **a,
 	free_environ(-1, o_env_adrs, o_env_elms);
 	free(t);
 	free(l);
-	free(*p);
+	if (p)
+		free(*p);
 	free(p);
 	free_alias(*a);
 	exit(c);
